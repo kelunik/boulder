@@ -11,6 +11,7 @@ import (
 	"encoding/asn1"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"sort"
 	"testing"
 	"time"
@@ -132,7 +133,7 @@ func setup(t *testing.T) *testCtx {
 
 	paDbMap, err := sa.NewDbMap(vars.DBConnPolicy)
 	test.AssertNotError(t, err, "Could not construct dbMap")
-	pa, err := policy.NewPolicyAuthorityImpl(paDbMap, false, nil)
+	pa, err := policy.NewPolicyAuthorityImpl(paDbMap, false, nil, rand.New(rand.NewSource(99)))
 	test.AssertNotError(t, err, "Couldn't create PADB")
 	paDBCleanUp := test.ResetPolicyTestDatabase(t)
 

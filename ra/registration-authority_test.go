@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
+	mrand "math/rand"
 	"net"
 	"net/url"
 	"testing"
@@ -199,7 +200,7 @@ func initAuthorities(t *testing.T) (*DummyValidationAuthority, *sa.SQLStorageAut
 		t.Fatalf("Failed to create dbMap: %s", err)
 	}
 	policyDBCleanUp := test.ResetPolicyTestDatabase(t)
-	pa, err := policy.NewPolicyAuthorityImpl(paDbMap, false, SupportedChallenges)
+	pa, err := policy.NewPolicyAuthorityImpl(paDbMap, false, SupportedChallenges, mrand.New(mrand.NewSource(99)))
 	test.AssertNotError(t, err, "Couldn't create PA")
 	ca := ca.CertificateAuthorityImpl{
 		Signer:         signer,

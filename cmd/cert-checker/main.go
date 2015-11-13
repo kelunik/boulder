@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"path"
 	"reflect"
@@ -21,6 +22,7 @@ import (
 	"github.com/letsencrypt/boulder/Godeps/_workspace/src/github.com/cactus/go-statsd-client/statsd"
 	"github.com/letsencrypt/boulder/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"github.com/letsencrypt/boulder/Godeps/_workspace/src/github.com/jmhodges/clock"
+	"github.com/letsencrypt/boulder/Godeps/_workspace/src/github.com/wadey/cryptorand"
 	gorp "github.com/letsencrypt/boulder/Godeps/_workspace/src/gopkg.in/gorp.v1"
 
 	"github.com/letsencrypt/boulder/cmd"
@@ -77,7 +79,8 @@ type certChecker struct {
 }
 
 func newChecker(saDbMap *gorp.DbMap, paDbMap *gorp.DbMap, clk clock.Clock, enforceWhitelist bool, challengeTypes map[string]bool) certChecker {
-	pa, err := policy.NewPolicyAuthorityImpl(paDbMap, enforceWhitelist, challengeTypes)
+	unsafeRNG := rand.New(cryptorand.Source)
+	pa, err := policy.NewPolicyAuthorityImpl(paDbMap, enforceWhitelist, challengeTypes, unsafeRNG)
 	cmd.FailOnError(err, "Failed to create PA")
 	c := certChecker{
 		pa:    pa,

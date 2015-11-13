@@ -134,6 +134,10 @@
 			"Rev": "150b7f24d6ad507e6026c13d85ce1f1391ac7400"
 		},
 		{
+			"ImportPath": "github.com/wadey/cryptorand",
+			"Rev": "f71da62b90e6a6df720e69d4607dcfd10443c75a"
+		},
+		{
 			"ImportPath": "golang.org/x/crypto/ocsp",
 			"Rev": "287a1d87db5d649b01d6193bd9d07e909f08094c"
 		},
